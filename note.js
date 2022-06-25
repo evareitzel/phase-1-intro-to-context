@@ -40,37 +40,55 @@ function createTimeOutEvent(employee, dateStamp) {
   }
   // add timeOut obj w keys to timeOutEvents array
   employee.timeOutEvents.push(timeOutObj);
+  // console.log(employee);  
   return employee;
 }
 
+////
 function hoursWorkedOnDate(employee, dateStamp) {
   const timeIn = employee.timeInEvents.find(element => element.date === dateStamp);
+  // console.log(timeIn);
   const timeOut =  employee.timeOutEvents.find(element => element.date === dateStamp);
   // find num of hours btw timeInEvent and timeOutEvent 
   const hours = (timeOut.hour - timeIn.hour)/100;
+  // console.log(hours);
   return hours;
 }
+// hoursWorkedOnDate();
 
 function wagesEarnedOnDate(employee, dateStamp) {
   // multiply the hours by the record's payRate to determine amount owed
   const hours = hoursWorkedOnDate(employee, dateStamp);
+  // console.log(hours);
   const payOwed = hours * employee.payPerHour;
+  // console.log(payOwed);
   return payOwed;
 }
+// wagesEarnedOnDate();
+
 
 function allWagesFor(employee) {
-  // find all  dates an employee worked
-  const allDates = employee.timeInEvents.map(function(evt){
-    return evt.date
+  // find all  dates an amployee worked
+  const allDates = employee.timeInEvents.map(function(e){
+    return e.date
   });
-  // calculate wages for total hours worked
+  // calculate wages for hours worked
   const totalWages = allDates.reduce(function(previousValue, currentValueDateStamp){
     return previousValue + wagesEarnedOnDate(employee, currentValueDateStamp)
   }, 0)
   return totalWages;
-}
 
-function calculatePayroll(arrEmployeeRecords) {
+  // console.log(allDates);
+  // wagesEarned = wagesEarnedOnDate(employee, dateStamp)
+  // accumulate total value of employee hours worked
+  // reduce
+
+  // return payOwed;
+}
+// allWagesFor();
+
+function calculatePayroll(arrEmployeeRecords) { // array of employee records
+  // reduce
   const payroll = arrEmployeeRecords.reduce((previousValue, currentValueEmployee) => {
     return previousValue + allWagesFor(currentValueEmployee)
   }, 0)
